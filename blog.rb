@@ -1,11 +1,12 @@
 require_relative "./post.rb"
-require_relative "./blog_manager.rb"
+require_relative "./pager.rb"
 
 class Blog
+  DEFAULT_PAGE = 1
   attr_accessor :directory
 
   def initialize
-    @my_book = Book.new
+    @directory = []
   end
 
   def add_post
@@ -14,21 +15,21 @@ class Blog
     date = Time.now
     puts "Post: "
     text = gets.chomp.downcase
-    puts "sponsored (true/false): "
-    sponsored = gets.to_bool
-    @my_book << Post.new(title, date, text, sponsored)
+    puts "Sponsored (yes/no): "
+    sponsored = gets.chomp.downcase
+    @directory << Post.new(title, date, text, sponsored)
   end
-end
 
-case post.sponsored
-when false
-  puts "#{post.title.capitalized}                    #{post.date}"
-  puts "*************************"
-  puts "#{post.text}\n"
-  puts "-------------------------"
-when true
-  puts "=======#{post.title.capitalized}=======      #{post.date}"
-  puts "*************************"
-  puts "#{post.text}\n"
-  puts "-------------------------"
+  def publish_posts
+    pager = Pager.new
+    quit = "no"
+    pages = pager.calculate_page_num(@directory)
+    pager.paginate(@directory, DEFAULT_PAGE)
+    Menu.print_pages(pages)
+    until quit == "yes"
+      pager.paginate(@directory, pager.select_page(pages))
+      Menu.print_pages(pages)
+      quit = gets.chomp
+    end
+  end
 end

@@ -1,25 +1,23 @@
-require_relative "./menu.rb"
-require_relative "./blog.rb"
+require_relative "menu.rb"
+require_relative "blog.rb"
 
 class BlogManager
-  attr_writer :option, :my_blog
+  attr_accessor :option, :my_blog
 
-  def initialize(option = 0, options = {}) # post_num = 3)
+  def initialize
     @option = option
-    @my_blog = options[:my_blog] || Blog.new
-    #@post_num = post_num
+    @my_blog = Blog.new
   end
 
-  def self.manage_data
+  def manage_data
     Menu.print_menu
     until @option == "3"
       @option = gets.chomp
       case @option
       when "1"
-        # collects all post DataCollector
         @my_blog.add_post
       when "2"
-        @my_blog.publish
+        @my_blog.publish_posts
       end
     end
   end

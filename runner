@@ -1,0 +1,3 @@
+load "~/Ironhack/Ruby_clean/Basic_blog/blog_manager.rb"
+
+BlogManager.new.manage_data

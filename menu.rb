@@ -5,4 +5,12 @@ class Menu
     puts "(2) List Blog's posts!"
     puts "(3) Exit"
   end
+
+  def self.print_pages(pages)
+    pages_menu = Array(1..pages)
+    pages_menu.each do |page_num|
+      print "-#{page_num}-"
+    end
+    puts " Quit? (yes/no): "
+  end
 end
